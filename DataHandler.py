@@ -1,4 +1,5 @@
 import os, random, cv2
+import numpy as np
 
 '''
     A script for preparing and using the training dataset. 
@@ -28,13 +29,18 @@ class dataHandler:
     
     def get_all_data_labeled(self, shuffle=False):
 
-        dataset = [ (fp, 1) for fp in self.get_covid_data_fp()]
-        dataset += [ (fp, 0) for fp in self.get_non_covid_data_fp()]
+        dataset = [ (fp, 1.0) for fp in self.get_covid_data_fp()]
+        dataset += [ (fp, 0.0) for fp in self.get_non_covid_data_fp()]
 
         if shuffle:
             random.shuffle(dataset)
 
         return dataset
 
-    def load_image(self, fp):
-        return cv2.imread(fp)
+    def load_image(self, fp, resize=False):
+        img = cv2.imread(fp)
+
+        if resize:
+            img = np.resize(img, (299,299,3)) # resizes to 299 x 299 x 3
+
+        return img

@@ -37,10 +37,17 @@ class dataHandler:
 
         return dataset
 
-    def load_image(self, fp, resize=False):
+    def load_image(self, fp, resize=False, grayscale=False):
+        
+        fp = os.path.abspath(fp) # normalize the path
+
         img = cv2.imread(fp)
 
         if resize:
             img = np.resize(img, (299,299,3)) # resizes to 299 x 299 x 3
+        
+        if grayscale:
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            img = np.reshape(img, (img.shape[0], img.shape[1]))
 
         return img

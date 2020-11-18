@@ -37,15 +37,28 @@ class dataHandler:
 
         return dataset
 
-    def load_image(self, fp, resize=False, grayscale=False):
+    def load_image(self, fp, resize=False, grayscale=False, add_noise=False, randomly_rotate=False):
         
         fp = os.path.abspath(fp) # normalize the path
 
+        if not os.path.isfile(fp):
+            print("Could not find filepath at location: ", fp )
+
+
         img = cv2.imread(fp)
 
+        if add_noise:
+            noise_mask = np.random.normal(0, .1, img.shape)
+            img = img + noise_mask
+           
+        if randomly_rotate:
+            # randomly rotate the image 90degrees 0 to 3 times. 
+            times_to_rotates = range(0,4)
+            img = np.rot90(img)
+
         if resize:
-            img = np.resize(img, (299,299,3)) # resizes to 299 x 299 x 3
-        
+            img = cv2.resize(img, (299,299), interpolation=cv2.INTER_CUBIC)
+
         if grayscale:
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             img = np.reshape(img, (img.shape[0], img.shape[1]))

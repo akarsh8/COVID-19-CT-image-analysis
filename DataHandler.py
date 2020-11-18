@@ -41,6 +41,10 @@ class dataHandler:
         
         fp = os.path.abspath(fp) # normalize the path
 
+        if not os.path.isfile(fp):
+            print("Could not find filepath at location: ", fp )
+
+
         img = cv2.imread(fp)
 
         if resize:

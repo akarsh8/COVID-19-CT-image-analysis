@@ -65,11 +65,11 @@ class dataHandler:
 
             # get which dimension is larger and resize based on that
             if img.shape[0] > img.shape[1]: # height is greater than width
-                new_width = 299
-                new_height = int(np.floor((299 * img.shape[1]) / img.shape[0]))
+                new_height = 299
+                new_width = int(np.floor((299 * img.shape[1]) / img.shape[0]))
             else:
-                new_height= 299
-                new_width = int(np.floor((299 * img.shape[0]) / img.shape[1]))
+                new_width= 299
+                new_height = int(np.floor((299 * img.shape[0]) / img.shape[1]))
             
             resized_img = cv2.resize(resized_img, (new_width, new_height), interpolation=cv2.INTER_AREA)
                 
